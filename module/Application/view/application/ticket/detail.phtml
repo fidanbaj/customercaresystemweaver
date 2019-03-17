@@ -1,0 +1,133 @@
+<!-- Start Page Banner Area -->
+<div class="page-banner-area">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="page-title">
+                <h2>
+                  Ticket #T-<?=$ticket->pk_ticket?>
+                </h2>
+               <span class="sub-title">Tickets</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Pages Banner Area -->
+
+<!-- Start Login Form -->
+<div class="container-area container-padding">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="form manage">
+               <form name="ticketdetailform" id="ticketdetailform" action="<?=$this->url('ticket', ['action' => 'detail', 'id' => $ticket->pk_ticket])?>" method="post">
+                  <div class="row">
+                      <p class="m-0">Betreff</p>
+                      <h2><?=$ticket->subject?></h2>
+                      
+                      <div class="col-md-6">
+                        Status: 
+                        <? if ($ticket->status == 0) { ?>
+                            <div class="state-box open">Offen</div>
+                        <? } ?>
+                        <? if ($ticket->status == 1) { ?>
+                            <div class="state-box process">in Bearbeitung</div>
+                        <? } ?>
+                        <? if ($ticket->status == 2) { ?>
+                            <div class="state-box answer">Beantwortet</div>
+                        <? } ?>
+                        <? if ($ticket->status == 3) { ?>
+                            <div class="state-box closed">Geschlossen</div>
+                        <? } ?> &nbsp;&nbsp;&nbsp;
+                        Priorität: 
+                        <? if ($ticket->priority == 0) { ?>
+                            <div class="priority-box low">Niedrig</div>
+                        <? } ?>
+                        <? if ($ticket->priority == 1) { ?>
+                            <div class="priority-box normal">Normal</div>
+                        <? } ?>
+                        <? if ($ticket->priority == 2) { ?>
+                            <div class="priority-box critical">Hoch</div>
+                        <? } ?>
+                      </div>
+                      <div class="col-md-6 text-right">
+                        <? if ($ticket->status != 3) { ?>
+                          <a href="<?=$this->url('ticket', ['action' => 'closeticket', 'id' => $ticket->pk_ticket])?>">
+                            <i class="fa fa-times" aria-hidden="true"></i> Ticket schliessen
+                          </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <? } ?>
+                        <? if (isset($_SESSION['login']) && $_SESSION['login'][1] == 2 && $ticket->status == 0) { ?>
+                          <a href="<?=$this->url('ticket', ['action' => 'editticket', 'id' => $ticket->pk_ticket])?>">
+                            <i class="fa fa-times" aria-hidden="true"></i> Ticket in Bearbeitung setzen
+                          </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <? } ?>
+                        <a href="<?=$this->url('ticket', ['action' => 'overview'])?>">
+                          <i class="fa fa-arrow-left" aria-hidden="true"></i> Zurück
+                        </a> 
+                      </div>
+                      <br /><br /><br />
+                      
+                      <h4>Konversation</h4>
+                      <hr />
+                      
+                      <?php foreach ($commentList as $comment) : ?>
+                        <? $user = $userTbl->getById($comment->fk_user); ?>
+                        <div class="row support-message">
+                          <? if ($comment->fk_user == $ticket->fk_user) { ?> 
+                            <div class="col-md-3">
+                              <i class="fa fa-user"></i><br />
+                              <?=$user->firstname?> <?=$user->lastname?>
+                            </div>
+                            <div class="col-md-9">
+                              <p><?=nl2br($comment->message)?></p>
+                              <p class="text-right table-font-12">
+                                am <?=date("d.m.Y", strtotime($comment->created))?> um <?=date("H:i", strtotime($comment->created))?>
+                              </p>
+                            </div>
+                          <? } else { ?>
+                            <div class="col-md-9 support">
+                              <p><?=nl2br($comment->message)?></p>
+                              <p class="text-right table-font-12">
+                                am <?=date("d.m.Y", strtotime($comment->created))?> um <?=date("H:i", strtotime($comment->created))?>
+                              </p>
+                            </div>
+                            <div class="col-md-3 support">
+                              <i class="fa fa-info-circle" aria-hidden="true"></i><br />
+                              <?=$user->firstname?> <?=$user->lastname?>
+                            </div>
+                          <? } ?>
+                        </div>
+                      <?php endforeach; ?>
+                      <hr />
+
+                      <br />
+                      <div class="col-md-8 p-0">
+                          <label for="message">Antwort / Nachfrage erstellen</label>
+                          <textarea name="message" id="message"><?=$formData['message']?></textarea>
+                      </div>
+
+                      <div class="col-md-12 p-0">
+                        <input type="submit" value="Absenden" name="btnCreateTicket" class="btn hover-bg">
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12 error-messages">
+                          <?php foreach ($alerts as $alert) : ?>
+                            <?=$alert?><br>
+                          <?php endforeach; ?>
+                        </div>
+                        <div class="col-md-12 success-messages">
+                          <? if ($success == true) { ?>
+                            Ihr neue Nachricht wurde erfasst und zur Konversation hinzugefügt.
+                          <? } ?>
+                        </div>
+                      </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Login Form -->

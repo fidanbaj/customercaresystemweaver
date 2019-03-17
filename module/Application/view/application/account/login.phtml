@@ -1,0 +1,60 @@
+<!-- Start Page Banner Area -->
+<div class="page-banner-area">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="page-title">
+               <h2>Login</h2>
+               <span class="sub-title">Account</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Pages Banner Area -->
+
+<!-- Start Login Form -->
+<div class="container-area container-padding">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-6">
+            <div class="form">
+               <form name="loginform" id="loginform" action="<?=$this->url('account', ['action' => 'login'])?>" method="post">
+                  <div class="row">
+                      <h2>Interner Bereich</h2>
+                      <p>Bitte geben Sie Ihre Logindaten ein, damit Sie Ihre Tickets verwalten können.</p><br />                      
+                      <div class="col-md-6 p-0">
+                          <label for="username">Benutzername </label>
+                          <input type="text" name="username" id="username" value="<?=$formData['username']?>" required>
+                      </div>
+                      <div class="col-md-6">
+                          <label for="password">Passwort </label>
+                          <input type="password" size="20" name="password" id="password" value="<?=$formData['password']?>" required>
+                      </div>
+
+                      <a href="<?=$this->url('account', ['action' => 'forgotpassword'])?>">Passwort vergessen?</a><br /><br />
+                  
+                      <input type="submit" value="Login" name="btnLogin" class="btn hover-bg">
+
+                      <div class="row">
+                        <div class="col-md-12 error-messages">
+                          <?php foreach ($alerts as $alert) : ?>
+                            <?=$alert?><br>
+                          <?php endforeach; ?>
+                        </div>
+                      </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+         <div class="col-md-5 col-md-offset-1">
+            <div class="row">
+              <h2>Account beantragen</h2>
+              <p>Falls Sie noch keinen Account besitzen, können Sie unter Re­gis­t­rie­rung einen Account erstellen. Dieser wird dann von unseren Mitarbeitern geprüft und freigeschaltet.</p><br />
+              <a href="<?=$this->url('account', ['action' => 'manage'])?>" class="btn hover-bg">Re­gis­t­rie­rung</a>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Login Form -->

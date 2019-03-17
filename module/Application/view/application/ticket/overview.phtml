@@ -1,0 +1,126 @@
+<!-- Start Page Banner Area -->
+<div class="page-banner-area">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="page-title">
+                <h2>Tickets</h2>
+               <span class="sub-title"></span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Pages Banner Area -->
+
+<section class="container container-padding">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-9 text-left">
+                    <h3 class="title">Alle Tickets</h3><br />
+                </div><!-- end col -->
+                <div class="col-sm-3 text-right">
+                    <a href="<?=$this->url('ticket', ['action' => 'create'])?>">
+                        <i class="fa fa-plus"></i> Neues Ticket
+                    </a>
+                </div><!-- end col -->
+            </div><!-- end row -->
+            <? if ($_SESSION['login'][1] == 2) { ?>
+                <div class="row">
+                    <div class="col-sm-12">
+                        Filtern nach Kunde: 
+                        <select name="filterEnterprise" id="filterEnterprise" onchange="if (this.value) window.location.href=this.value">
+                            <option value="">Bitte auswählen</option>
+                        <?php foreach ($enterpriseTbl->fetchAll() as $enterprise) : ?>
+                            <option <? if($selectedCustomer == $enterprise->pk_enterprise){ echo "selected=selected"; } ?> value="<?=$this->url('ticket', ['action' => 'overview'])."/".$enterprise->pk_enterprise?>"><?=$enterprise->name?></option>
+                        <?php endforeach; ?>
+                        </select>
+                        <br /><br />
+                    </div>
+                </div>
+            <? } ?>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">    
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-1">Ticket-ID</th>
+                                    <th class="col-sm-5">Betreff</th>
+                                    <? if ($_SESSION['login'][1] == 2) { ?>
+                                        <th class="col-sm-2">Kunde</th>
+                                    <? } ?>
+                                    <th class="col-sm-2">Letzte Antwort</th>
+                                    <th class="col-sm-1">Priorität</th>
+                                    <th class="col-sm-1">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($ticketList as $ticket) : ?>
+                                <tr>
+                                    <td>
+                                        <a href="<?=$this->url('ticket', ['action' => 'detail', 'id' => $ticket->pk_ticket])?>">#T-<?=$ticket->pk_ticket?></a>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <a href="<?=$this->url('ticket', ['action' => 'detail', 'id' => $ticket->pk_ticket])?>"><?=$ticket->subject?></a>
+                                        </p>
+                                    </td>
+                                    <? if ($_SESSION['login'][1] == 2) { ?>
+                                        <td>
+                                            <?
+                                                $user = $userTbl->getById($ticket->fk_user);
+                                                $enterprise = $enterpriseTbl->getById($user->fk_enterprise);
+                                            ?>
+                                            <p>
+                                                <?=$enterprise->name?>
+                                            </p>
+                                        </td>
+                                    <? } ?>
+                                    <td>
+                                        <?=date("d.m.Y - H:i", strtotime($ticket->changed))?>
+                                    </td>  
+                                    <td class="table-font-12">
+                                        <? if ($ticket->priority == 0) { ?>
+                                            <div class="priority-box low">Niedrig</div>
+                                        <? } ?>
+                                        <? if ($ticket->priority == 1) { ?>
+                                            <div class="priority-box normal">Normal</div>
+                                        <? } ?>
+                                        <? if ($ticket->priority == 2) { ?>
+                                            <div class="priority-box critical">Hoch</div>
+                                        <? } ?>
+                                    </td>
+                                    <td class="table-font-12">
+                                        <? if ($ticket->status == 0) { ?>
+                                            <div class="state-box open">Offen</div>
+                                        <? } ?>
+                                        <? if ($ticket->status == 1) { ?>
+                                            <div class="state-box process">in Bearbeitung</div>
+                                        <? } ?>
+                                        <? if ($ticket->status == 2) { ?>
+                                            <div class="state-box answer">Beantwortet</div>
+                                        <? } ?>
+                                        <? if ($ticket->status == 3) { ?>
+                                            <div class="state-box closed">Geschlossen</div>
+                                        <? } ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                                <? if (!count($ticketList)) { ?>
+                                    <tr>
+                                        <td style="background: #deffde;" colspan="6">
+                                            Keine Tickets vorhanden
+                                        </td>
+                                    </tr>
+                                <? } ?>
+                            </tbody>
+                        </table><!-- end table -->
+                    </div><!-- end table-responsive -->
+                    
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end col -->
+    </div><!-- end row -->                
+</section>

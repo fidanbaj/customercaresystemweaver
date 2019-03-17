@@ -1,0 +1,80 @@
+<!-- Start Page Banner Area -->
+<div class="page-banner-area">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="page-title">
+                <h2>
+                  Ticket erstellen
+                </h2>
+               <span class="sub-title">Tickets</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Pages Banner Area -->
+
+<!-- Start Login Form -->
+<div class="container-area container-padding">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="form manage">
+               <form name="manageform" id="manageform" action="<?=$this->url('ticket', ['action' => 'create'])?>" method="post">
+                  <div class="row">
+                      <h2>Neues Ticket erstellen</h2>
+                      <p>Bitte geben Sie alle Pflichtfelder welche mit * markiert sind an und klicken Sie anschliessend auf "Ticket erstellen".<br /><br /></p>
+                      
+                      <div class="col-md-8 p-0">
+                          <? if ($_SESSION['login'][1] == 2) { ?>
+                            <label for="customer">Kunde* </label>
+                            <select name="customer" id="customer" required>
+                              <option value="">Bitte auswählen</option>
+                              <?php foreach ($enterpriseTbl->fetchAll() as $enterprise) : ?>
+                                  <? $user = $userTbl->getByEnterpriseId($enterprise->pk_enterprise); ?>
+                                  <option <? if($formData['customer'] == $enterprise->pk_enterprise){ echo "selected=selected"; } ?> value="<?=$enterprise->pk_enterprise?>"><?=$enterprise->name?>, <?=$user->firstname." ".$user->lastname?></option>
+                              <?php endforeach; ?>
+                            </select>
+                          <? } ?>
+
+                          <label for="priority">Priorität* </label>
+                          <label for="priority">Wählen Sie mit welcher Priorität wir Ihre Anfrage bearbeiten sollen.</label>
+                          <select id="priority" name="priority" required>
+                            <option value="">Bitte auswählen</option>
+                            <option value="0" <? if($formData['priority'] == "0") { echo "selected"; } ?>>Niedrig</option>
+                            <option value="1" <? if($formData['priority'] == "1") { echo "selected"; } ?>>Normal</option>
+                            <option value="2" <? if($formData['priority'] == "2") { echo "selected"; } ?>>Hoch</option>
+                          </select>
+
+                          <label for="subject">Betreff* </label>
+                          <input type="text" name="subject" id="subject" value="<?=$formData['subject']?>" required>
+
+                          <label for="message">Ihre Nachricht* </label>
+                          <textarea name="message" id="message" required><?=$formData['message']?></textarea>
+                      </div>
+
+                      <div class="col-md-12 p-0">
+                        <input type="submit" value="Ticket erstellen" name="btnCreateTicket" class="btn hover-bg">
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12 error-messages">
+                          <?php foreach ($alerts as $alert) : ?>
+                            <?=$alert?><br>
+                          <?php endforeach; ?>
+                        </div>
+                        <div class="col-md-12 success-messages">
+                          <? if ($success == true) { ?>
+                            Ihr Ticket wurde erstellt.
+                          <? } ?>
+                        </div>
+                      </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Login Form -->

@@ -1,0 +1,105 @@
+<!-- Start Page Banner Area -->
+<div class="page-banner-area">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="page-title">
+                <h2>
+                  <? if ($mode == "create") { echo "Registrierung"; } else { echo "Daten ändern"; } ?>
+                </h2>
+               <span class="sub-title">Account</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Pages Banner Area -->
+
+<!-- Start Login Form -->
+<div class="container-area container-padding">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="form manage">
+               <form name="manageform" id="manageform" action="<?=$this->url('account', ['action' => 'manage'])?>" method="post">
+                  <div class="row">
+                      <? if ($mode == "create") { ?>
+                        <h2>Account erstellen</h2>
+                        <p>Bitte geben Sie alle Pflichtfelder welche mit * markiert sind an und klicken Sie anschliessend auf "Account erstellen".<br />
+                        Ihr Account wird nur freigeschaltet, falls Sie ein Kunde von uns sind.</p>                      
+                      <? } else { ?>
+                        <h2>Account anpassen</h2>
+                        <p>Bitte geben Sie alle Pflichtfelder welche mit * markiert sind an und klicken Sie anschliessend auf "Daten speichern".</p>
+                      <? } ?><br />
+                      <div class="col-md-6 p-0">
+                          <h3>Verantwortlicher</h3>
+
+                          <label for="title">Anrede* </label>
+                          <select id="title" name="title" required>
+                            <option value="">Bitte auswählen</option>
+                            <option value="1" <? if($formData['title'] == "1") { echo "selected"; } ?>>Herr</option>
+                            <option value="2" <? if($formData['title'] == "2") { echo "selected"; } ?>>Frau</option>
+                          </select>
+
+                          <label for="firstname">Vorname* </label>
+                          <input type="text" name="firstname" id="firstname" value="<?=$formData['firstname']?>" required>
+
+                          <label for="lastname">Name* </label>
+                          <input type="text" name="lastname" id="lastname" value="<?=$formData['lastname']?>" required>
+
+                          <label for="email">E-Mail* </label>
+                          <input type="email" name="email" id="email" value="<?=$formData['email']?>" required>
+
+                          <label for="password">Passwort* </label>
+                          <input type="password" size="20" name="password" id="password" value="<?=$formData['password']?>" required>
+
+                          <label for="passwordrepeat">Passwort wiederholen* </label>
+                          <input type="password" size="20" name="passwordrepeat" id="passwordrepeat" value="<?=$formData['passwordrepeat']?>">
+                      </div>
+                      <div class="col-md-6">
+                          <h3>Unternehmen</h3>
+                          <label for="enterprisename">Name des Unternehmens* </label>
+                          <input type="text" name="enterprisename" id="enterprisename" value="<?=$formData['enterprisename']?>" required>
+
+                          <label for="address">Adresse* </label>
+                          <input type="text" name="address" id="address" value="<?=$formData['address']?>" required>
+
+                          <label for="zip">PLZ* </label>
+                          <input type="number" name="zip" id="zip" min="1000" max="9999" value="<?=$formData['zip']?>" required>
+
+                          <label for="place">Ort* </label>
+                          <input type="text" name="place" id="place" value="<?=$formData['place']?>" required>
+
+                          <label for="phone">Telefon* </label>
+                          <input type="text" name="phone" id="phone" value="<?=$formData['phone']?>" required>
+                      </div>
+
+                      <div class="col-md-12 p-0">
+                        <input type="submit" value="<? if ($mode == "create") { echo "Account erstellen"; } else { echo "Daten speichern"; } ?>" name="btnCreateEditAccount" class="btn hover-bg">
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12 error-messages">
+                          <?php foreach ($alerts as $alert) : ?>
+                            <?=$alert?><br>
+                          <?php endforeach; ?>
+                        </div>
+                        <div class="col-md-12 success-messages">
+                          <? if ($success == true) { ?>
+                            <? if ($mode == "create") { ?>
+                              Ihr Account wurde erfolgreich erstellt. Wir prüfen Ihren Account sowie Ihre Daten und schalten ihn dann frei. <br />
+                              Sie erhalten eine Benachrichtigung per E-Mail.
+                            <? } else { ?>
+                              Ihre Daten wurden erfolgreich geändert.
+                            <? } ?>
+                          <? } ?>
+                        </div>
+                      </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Login Form -->

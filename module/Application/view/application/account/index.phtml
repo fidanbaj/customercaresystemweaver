@@ -1,0 +1,57 @@
+<!-- Start Page Banner Area -->
+<div class="page-banner-area">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="page-title">
+               <h2>Interner Bereich</h2>
+               <span class="sub-title">Account</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Pages Banner Area -->
+
+<div class="container container-padding">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+          <h3>
+            Hallo <?=$user->firstname." ".$user->lastname?>
+            <? if ($user->type == 2) { echo "(Administrator)"; } ?>
+          </h3>
+         </div>
+         <? if ($user->type == 2) { ?>
+          <div class="col-sm-6 col-md-4">
+            <div class="update-box">
+               <div class="update-version">
+                  <h2>Benutzer verwalten</h2>
+               </div>
+               <p>Administrator: Aktive, Inaktive oder gelöschte User verwalten.</p>
+               <a href="<?=$this->url('account', ['action' => 'useradministration'])?>" class="btn hover-bg">Benutzer Administration</a>
+            </div>
+         </div>
+         <? } ?>
+         <div class="col-sm-6 col-md-4">
+            <div class="update-box">
+               <div class="update-version">
+                  <h2>Daten ändern</h2>
+               </div>
+               <p>Hier können Sie Ihre persönlichen sowie die Daten Ihres Unternehmens anpassen.</p>
+               <a href="<?=$this->url('account', ['action' => 'manage'])?>" class="btn hover-bg">Account anpassen</a>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-4">
+            <div class="update-box">
+               <div class="update-version">
+                  <h2>Logout</h2>
+               </div>
+               <p>Klicken Sie unten auf den Button, um sich von der Plattform auszuloggen</p>
+               <a href="<?=$this->url('account', ['action' => 'logout'])?>" class="btn hover-bg">ausloggen</a>
+            </div>
+         </div>
+         
+      </div>
+   </div>
+</div>

@@ -1,0 +1,107 @@
+<!-- Start Page Banner Area -->
+<div class="page-banner-area">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="page-title">
+                <h2>Benutzer Administration</h2>
+               <span class="sub-title">Account</span>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- End Pages Banner Area -->
+
+<section class="container container-padding">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12 text-left">
+                    <h3 class="title">Alle Benutzer</h3>
+                </div><!-- end col -->
+            </div><!-- end row -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">    
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-1">ID</th>
+                                    <th class="col-sm-1">Status</th>
+                                    <th class="col-sm-3">Verantwortlicher</th>
+                                    <th class="col-sm-3">Unternehmen</th>
+                                    <th class="col-sm-2">erstellt/geändert</th>
+                                    <th class="col-sm-1">Aktion</th>
+                                </tr>
+                            </thead>
+                            <? $userStatusTable = 0; ?>
+                            <tbody>
+                                <tr><td style="background: #fff0d5;" colspan="6">neue (inaktive) Benutzer</td></tr>
+                                <?php foreach ($userList as $user) : ?>
+                                <? if ($userStatusTable != $user->status) { ?>
+                                    <tr>
+                                        <td style="background: <? if ($user->status == 1) { echo "#deffde"; } else { echo "#ffd0d0"; } ?>" colspan="6">
+                                            <? if ($user->status == 1) { echo "aktive"; } else { echo "gelöschte"; } ?> Benutzer
+                                        </td>
+                                    </tr>
+                                <? } ?>
+                                <? $userStatusTable = $user->status; ?>
+                                <tr>
+                                    <td>
+                                        <?=$user->pk_user?>
+                                    </td>
+                                    <td style="font-size:12px;">
+                                        <? if ($user->status == 0) { ?>
+                                            <i style="color:orange" class="fa fa-exclamation-triangle"></i> inaktiv<br />
+                                            <? if ($user->deleted) { ?>
+                                                <i style="color:red" class="fa fa-times-circle"></i> gelöscht
+                                            <? } ?>
+                                        <? } else { ?>
+                                            <i style="color:green" class="fa fa-check-square"></i> aktiv
+                                        <? } ?>
+                                    </td>
+                                    <td>
+                                        <p style="font-size:12px;">
+                                            <?=$user->title == 1 ? "Herr" : "Frau" ?><br />
+                                            <?=$user->firstname?> <?=$user->lastname?><br>                                                 
+                                            <?=$user->email?>
+                                        </p>
+                                    </td>
+                                    <td style="font-size:12px;">
+                                        <?
+                                        $enterprise = $enterpriseTbl->getById($user->fk_enterprise);
+                                        ?>
+                                        <strong><?=$enterprise->name?></strong><br>
+                                        <?=$enterprise->address?><br>
+                                        <?=$enterprise->zip?> <?=$enterprise->place?><br>
+                                        <?=$enterprise->phone?>
+                                    </td>
+                                    <td style="font-size:12px;">
+                                        <?=date("d.m.Y H:i", strtotime($user->created))?><br />
+                                        <?=date("d.m.Y H:i", strtotime($user->changed))?>
+                                    </td>                                        
+                                    <td style="font-size:12px;">
+                                        <? if ($user->status == 0) { ?>                                                
+                                            <? if ($user->deleted) { ?>
+                                                <a href="<?=$this->url('account', ['action' => 'changeuserstatus', 'id' => $user->pk_user])?>">aktivieren</a>
+                                            <? } else { ?>
+                                                <a href="<?=$this->url('account', ['action' => 'changeuserstatus', 'id' => $user->pk_user])?>">aktivieren</a><br />
+                                                <a href="<?=$this->url('account', ['action' => 'deleteuser', 'id' => $user->pk_user])?>">löschen</a><br />
+                                            <? } ?>
+                                        <? } else { ?>
+                                            <a href="<?=$this->url('account', ['action' => 'changeuserstatus', 'id' => $user->pk_user])?>">deaktivieren</a><br />
+                                            <a href="<?=$this->url('account', ['action' => 'deleteuser', 'id' => $user->pk_user])?>">löschen</a><br />
+                                        <? } ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table><!-- end table -->
+                    </div><!-- end table-responsive -->
+                    
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end col -->
+    </div><!-- end row -->                
+</section>

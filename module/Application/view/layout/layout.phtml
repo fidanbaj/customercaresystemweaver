@@ -1,0 +1,261 @@
+<?= $this->doctype() ?>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <?= $this->headTitle('Weaver Customer Care System')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?= $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- all styles -->
+        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/favicon.ico'])
+            ->prependStylesheet($this->basePath('css/style.css?ver=1.1'))
+            ->prependStylesheet($this->basePath('css/meanmenu.min.css'))
+            ->prependStylesheet($this->basePath('css/font-awesome.min.css'))
+            ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+        ?>
+
+        <!-- Scripts -->
+        <?= $this->headScript()?>
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <!-- Start Header -->
+        <header>
+         <!-- Start Mainmenu -->
+         <div class="menu-area navbar-fixed-top ">
+            <div class="container">
+               <div class="row">
+                  <div class="mainmenu-wrapper">
+                     <!-- Start Header Logo -->
+                     <div class="col-xs-12 col-md-3">
+                        <div class="header-logo">
+                           <a href="/"><img src="/images/page/logo.png" alt="logo"></a>
+                        </div>
+                     </div>
+                     <!-- End Header Logo -->
+                     <!-- Start Navigation -->
+                     <div class="col-xs-12 col-md-9">
+                        <div class="mainmenu">
+                           <div class="navbar navbar-right">
+                              <div class="navbar-header visible-xs">
+                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                 <span class="sr-only">Toggle navigation</span>
+                                 <span class="icon-bar"></span>
+                                 <span class="icon-bar"></span>
+                                 <span class="icon-bar"></span>
+                                 </button>
+                              </div>
+                              <div class="collapse navbar-collapse top-menu">
+                                 <nav>
+                                    <ul class="nav navbar-nav">
+                                       <li>
+                                          <a href="<?= $this->url('home') ?>">
+                                             Startseite
+                                             <span>Übersicht</span>
+                                          </a>
+                                       </li>
+                                       <li>
+                                          <a href="<?=$this->url('about', ['action' => 'index'])?>">
+                                             Über uns
+                                             <span>Portrait</span>
+                                          </a>
+                                       </li>
+                                       <li>
+                                          <a href="<?= $this->url('account') ?>">
+                                             Account
+                                             <span>Interner Bereich</span>
+                                          </a>
+                                          <ul class="dropdown">
+                                            <? if (isset($_SESSION['login'])) { ?>
+                                                <? if (isset($_SESSION['login']) && $_SESSION['login'][1] == 2) { ?>
+                                                    <li><a href="<?=$this->url('account', ['action' => 'useradministration'])?>">Benutzer Administration</a></li>
+                                                <? } ?>
+                                                <li><a href="<?=$this->url('account', ['action' => 'manage'])?>">Daten ändern</a></li>
+                                                <li><a href="<?=$this->url('account', ['action' => 'logout'])?>">Logout</a></li>
+                                            <? } else { ?>
+                                                <li><a href="<?=$this->url('account', ['action' => 'index'])?>">Login</a></li>
+                                            <? } ?>
+                                          </ul>
+                                       </li>
+                                       <li>
+                                          <a href="<?=$this->url('ticket', ['action' => 'overview'])?>">
+                                             Tickets
+                                             <span>Support</span>
+                                          </a>
+                                          <ul class="dropdown">
+                                            <li><a href="<?=$this->url('ticket', ['action' => 'overview'])?>">Ticket Übersicht</a></li>
+                                            <li><a href="<?=$this->url('ticket', ['action' => 'create'])?>">Ticket erstellen</a></li>
+                                          </ul>
+                                       </li>
+                                       <li>
+                                          <a href="<?=$this->url('about', ['action' => 'contact'])?>">
+                                             Kontakt
+                                             <span>Informationen</span>
+                                          </a>
+                                       </li>
+                                    </ul>
+                                 </nav>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!-- End Navigation -->
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- End Mainmenu -->
+         <!-- Start Mobile Menu Area -->
+         <div class="col-xs-12 visible-xs">
+            <div class="mobile-menu">
+               <nav>
+                    <ul>
+                        <li>
+                            <a href="<?= $this->url('home') ?>">Home</a>
+                        </li>
+                        <li>
+                            <a href="<?= $this->url('about') ?>">Über uns</a>
+                        </li>
+                        
+                        <li>
+                          <a href="<?=$this->url('ticket', ['action' => 'overview'])?>">Tickets</a>
+                          <ul>
+                            <li><a href="<?=$this->url('ticket', ['action' => 'overview'])?>">Ticket Übersicht</a></li>
+                            <li><a href="<?=$this->url('ticket', ['action' => 'create'])?>">Ticket erstellen</a></li>
+                          </ul>
+                        </li>
+                        <li>
+                            <a href="<?= $this->url('account') ?>">Account</a>
+                            <ul>
+                                <? if (isset($_SESSION['login'])) { ?>
+                                    <? if (isset($_SESSION['login']) && $_SESSION['login'][1] == 2) { ?>
+                                        <li><a href="<?=$this->url('account', ['action' => 'useradministration'])?>">Benutzer Administration</a></li>
+                                    <? } ?>
+                                    <li><a href="<?=$this->url('account', ['action' => 'manage'])?>">Daten ändern</a></li>
+                                    <li><a href="<?=$this->url('account', ['action' => 'logout'])?>">Logout</a></li>
+                                <? } else { ?>
+                                    <li><a href="<?=$this->url('account', ['action' => 'index'])?>">Login</a></li>
+                                <? } ?>
+                            </ul>
+                       </li>
+                       <li>
+                            <a href="<?=$this->url('about', ['action' => 'contact'])?>">Kontakt</a>
+                        </li>
+                    </ul>
+               </nav>
+            </div>
+         </div>
+         <!-- End MObile Menu Area -->
+        </header>
+        <!-- End Header -->
+
+        <?= $this->content ?>
+        
+        <!-- Start Footer Area -->
+        <footer>
+         <div class="footer-area footer-padding">
+            <div class="container">
+               <div class="row">
+                  <div class="footer-wrapper">
+                     <div class="col-sm-6 col-md-3">
+                        <div class="single-footer">
+                           <h3 class="footer-heading">Über uns</h3>
+                           <div class="single-footer-text">
+                              <p>Wir möchten sicherstellen, dass Ihre Webseite/Web-Applikation permanent verfügbar und schnell abrufbar ist. Unser Customer Care System "Weaver" verwaltet all Ihre Anliegen und hilft Ihnen bei Störungen weiter.</p>
+                           </div>
+                           <div class="social-links">
+                              <ul>
+                                 <li class="gp-link"><a target="_blank" href="http://www.webweaves.ch/"><i class="fa fa-external-link"></i></a></li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-6 col-md-3">
+                        <div class="single-footer">
+                           <h3 class="footer-heading">Administrativ</h3>
+                           <div class="footer-list">
+                              <ul>
+                                 <li><a href="<?=$this->url('ticket', ['action' => 'overview'])?>">Ticket Übersicht</a></li>
+                                 <li><a href="<?=$this->url('ticket', ['action' => 'create'])?>">Ticket erstellen</a></li>
+                                 <li><a href="<?=$this->url('account', ['action' => 'index'])?>">Account</a></li>
+                                 <? if (isset($_SESSION['login'])) { ?>
+                                    <li><a href="<?=$this->url('account', ['action' => 'manage'])?>">Benutzerdaten ändern</a></li>
+                                <? } else { ?>
+                                    <li><a href="<?=$this->url('account', ['action' => 'manage'])?>">Registrierung</a></li>
+                                <? } ?>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-6 col-md-3">
+                        <div class="single-footer">
+                           <h3 class="footer-heading">Nützliche Links</h3>
+                           <div class="footer-list">
+                              <ul>
+                                 <li><a href="<?=$this->url('about', ['action' => 'contact'])?>">Kontakt</a></li>
+                                 <li><a href="<?=$this->url('about', ['action' => 'manual'])?>">Benutzerhandbuch</a></li>
+                                 <li><a href="<?=$this->url('account', ['action' => 'forgotpassword'])?>">Passwort vergessen</a></li>
+                                 <li><a href="<?=$this->url('about', ['action' => 'impressum'])?>">Impressum</a></li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-6 col-md-3">
+                        <div class="single-footer">
+                           <h3 class="footer-heading">Kontakt</h3>
+                           <p>
+                              <strong>Support Nummer</strong><br />+41 79 754 98 29<br /><br />
+                              
+                              <strong>E-Mail</strong><br />
+                              <a href="mailto:info@webweaves.ch">info@webweaves.ch</a>
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Start Footer Bottom Area -->
+         <div class="footer-bottom-area">
+            <div class="container">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="footer-bottom">
+                        <div class="footer-logo">
+                           <img src="/images/page/logo.png" alt="logo">
+                        </div>
+                        <div class="copyright-text">
+                           <p>&copy; <?= date('Y') ?> IBZ Schulen AG - Web Weaves - Alle Rechte vorbehalten.</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- End Footer Bottom Area -->
+         <!-- Start Scroll To Top -->
+         <div class="scroll-top">
+            <div class="scroll-icon">
+               <i class="fa fa-angle-up"></i>
+            </div>
+         </div>
+         <!-- End Scroll To Top -->
+        </footer>
+        <!-- End Footer Area -->
+
+        <?= $this->inlineScript()
+            ->prependFile($this->basePath('js/main.js')) 
+            ->prependFile($this->basePath('js/jquery.meanmenu.js'))
+            ->prependFile($this->basePath('js/bootstrap.min.js')) 
+            ->prependFile($this->basePath('js/jquery.min.js')) 
+        ?>
+    </body>
+</html>
