@@ -5,6 +5,6 @@ return [
          'driver'       => 'Pdo',
          'dsn'          => 'mysql:dbname=dbWeaver;host=localhost;charset=utf8',
          'username'     => 'dbWeaver_usr',
-         'password'     => 'nunY6etUdEze'
+         'password'     => 'NOT-AVAILABLE'
     )
 ];
